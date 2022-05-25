@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">tag</string>
+    <string name="tag_C">#도</string>
+    <string name="tag_D">#레</string>
+    <string name="tag_E">#미</string>
+    <string name="tag_F">#파</string>
+    <string name="tag_G">#솔</string>
+    <string name="tag_A">#라</string>
+    <string name="tag_B">#시</string>
+    <string name="music_title">제목: </string>
+    <string name="music_singer">가수: </string>
+    <string name="music_pitch">최고음: </string>
+</resources>
