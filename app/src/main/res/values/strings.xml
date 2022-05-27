@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">tag</string>
-    <string name="tag_C">#도</string>
-    <string name="tag_D">#레</string>
-    <string name="tag_E">#미</string>
-    <string name="tag_F">#파</string>
-    <string name="tag_G">#솔</string>
-    <string name="tag_A">#라</string>
-    <string name="tag_B">#시</string>
+    <string name="tag_2A">#2옥라~1옥시</string>
+    <string name="tag_2F">#2옥파~2옥솔</string>
+    <string name="tag_3C">#3옥도~3옥레</string>
+    <string name="tag_3E">#3옥미~3옥파</string>
+    <string name="tag_3G">#3옥솔~3옥라</string>
+    <string name="num">숫자</string>
     <string name="music_title">제목: </string>
     <string name="music_singer">가수: </string>
     <string name="music_pitch">최고음: </string>
+    <string name="music_title_insert">제목 입력</string>
+    <string name="music_singer_insert">가수 입력</string>
+    <string name="music_pitch_insert">최고음 입력</string>
 </resources>
