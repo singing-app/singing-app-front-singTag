@@ -8,8 +8,7 @@ public class FriendItem {
     String message;
     int resourceId;
 
-    public FriendItem(int resourceId, String txt_num, String text_title_insert, String text_singer_insert, String text_pitch_insert) {
-        this.txt_num = txt_num;
+    public FriendItem(int resourceId, String text_title_insert, String text_singer_insert, String text_pitch_insert) {
         this.text_title_insert= text_title_insert;
         this.text_singer_insert = text_singer_insert;
         this.text_pitch_insert = text_pitch_insert;

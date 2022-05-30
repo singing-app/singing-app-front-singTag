@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<FriendItem> mFriendList;
+    private ArrayList<FriendItem> mFriendList = null;
 
     @NonNull
     @Override
@@ -34,7 +34,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return mFriendList.size();
+        try{
+            return mFriendList.size();
+        } catch(Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

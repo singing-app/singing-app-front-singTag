@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,21 +23,39 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter mRecyclerAdapter;
-    private ArrayList<FriendItem> mfriendItems;
+
+    public ArrayList<CheckBox> checkBoxArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        checkBoxArrayList = new ArrayList<>();
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_1));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_2));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_3));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_4));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_1));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_2));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_3));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_4));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_5));
+        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_6));
+        final int checkBoxArrListSize = checkBoxArrayList.size();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -48,58 +67,90 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
-        db.collection("2옥").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // mfriendItems = new ArrayList<>();
+
+        View.OnClickListener myClickListener = new View.OnClickListener() {
+            private int targetOctave = -1;
+            private String targetPitch = null;
+
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> tempArrList;
+                ArrayList<FriendItem> mfriendItems = new ArrayList<>();
+
+                for(int i = 0; i < checkBoxArrListSize; i++){
+                    if(checkBoxArrayList.get(i).isChecked()){
+                        if(i >= 0 && i <= 3){
+                            tempArrList = new ArrayList<>(Arrays.asList("파", "솔", "라", "시"));
+                            targetOctave = 2;
+                            targetPitch = tempArrList.get(i);
+                            mfriendItems = addTagList(mfriendItems, targetOctave, targetPitch);
+                            Log.d(TAG, "TAG by onClick()"+ mfriendItems);
+                        }
+                        else if(i >= 4 && i <= 9){
+                            int idx = i - 4;
+                            tempArrList = new ArrayList<>(Arrays.asList("도", "레", "미", "파", "솔", "라"));
+                            targetOctave = 3;
+                            targetPitch = tempArrList.get(idx);
+                            mfriendItems = addTagList(mfriendItems, targetOctave, targetPitch);
+                            Log.d(TAG, "TAG by onClick()"+ mfriendItems);
+                        }
+                    }
+                }
+                updateTagList(mfriendItems);
+            }
+        };
+
+        for(CheckBox tempChkBox : checkBoxArrayList){
+            tempChkBox.setOnClickListener(myClickListener);
+        }
+    }
+
+    public ArrayList<FriendItem> addTagList(ArrayList<FriendItem> arr, int _tOctave, String tPitch){
+
+        if(_tOctave == -1 || tPitch == null){ return null; }
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String tOctave = _tOctave + "옥";
+
+        db.collection(tOctave).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        Log.d(TAG, document.getId() + "=>" + document.getData());
+                Map<String, Object> tempDBMap;
 
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Log.d(TAG, document.getId() + "=>" + document.getData());
+
+                        if(Objects.equals(document.getId(), tPitch)){
+                            int x = 10;
+                            tempDBMap = document.getData();
+                            // Log.d(TAG,tempDBMap + "");
+                            /* adapt data */
+                            for (Map.Entry<String, Object> elem : tempDBMap.entrySet()) {
+                                arr.add(new FriendItem(R.drawable.pancake, elem.getKey(), String.valueOf(elem.getValue()), document.getId()));
+                            }
+
+                            break;
+                        }  // error point
+                        // Log.d(TAG, "TAG by ADD(): "+ arr.get(arr.size()-1).getText_title_insert() + arr.get(arr.size()-1).getText_singer_insert());
                     }
                 } else {
                     Log.w(TAG, "Error getting documents", task.getException());
                 }
             }
         });
-
-
-        /* adapt data */
-        mfriendItems = new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            mfriendItems.add(new FriendItem(R.drawable.pancake,i+"번",i+"번째 제목",i+"번째 가수", i+"번째 음역대"));
-        }
-        mRecyclerAdapter.setFriendList(mfriendItems);
+        // Log.d(TAG, "TAG by ADD(): "+ arr.get(arr.size()-1).getText_title_insert() + arr.get(arr.size()-1).getText_singer_insert());
+        Log.d(TAG, "" + arr);
+        return arr;
     }
 
-    View.OnClickListener myClickLIstener = new View.OnClickListener() {
-        private int targetOctave = 0;
-        private String[] targetPitch = null;
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.button_2octave_1:
-                    targetOctave = 2;
-                    targetPitch = new String[]{"파", "솔"};
-                    break;
-                case R.id.button_2octave_2:
-                    targetOctave = 2;
-                    targetPitch = new String[]{"라", "시"};
-                    break;
-                case R.id.button_3octave_1:
-                    targetOctave = 3;
-                    targetPitch = new String[]{"도", "레"};
-                    break;
-                case R.id.button_3octave_2:
-                    targetOctave = 3;
-                    targetPitch = new String[]{"미", "파"};
-                    break;
-                case R.id.button_3octave_3:
-                    targetOctave = 3;
-                    targetPitch = new String[]{"솔", "라"};
-                    break;
-            }
-
+    public void updateTagList(ArrayList<FriendItem> arr){
+        if(arr == null){ return; }
+        else {
+            mRecyclerAdapter.setFriendList(arr);
+            Log.d(TAG,"TAG by update(): "+arr);
         }
-    };
+    }
+
 }

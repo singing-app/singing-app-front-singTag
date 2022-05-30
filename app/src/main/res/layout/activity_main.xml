@@ -27,31 +27,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp">
+            android:padding="2dp">
 
-            <Button
-                android:id="@+id/button_2octave_1"
+            <CheckBox
+                android:id="@+id/checkbox_2octave_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="@string/tag_2F" />
+                android:text="2옥 파"/>
 
-            <Button
-                android:id="@+id/button_2octave_2"
+            <CheckBox
+                android:id="@+id/checkbox_2octave_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="@string/tag_2A" />
+                android:text="2옥 솔" />
 
-            <Button
-                android:id="@+id/button_3octave_1"
+            <CheckBox
+                android:id="@+id/checkbox_2octave_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="@string/tag_3C" />
+                android:text="2옥 라" />
+
+            <CheckBox
+                android:id="@+id/checkbox_2octave_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2옥 시" />
 
         </LinearLayout>
 
@@ -60,21 +64,44 @@
             android:layout_height="80dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_3octave_2"
+            <CheckBox
+                android:id="@+id/checkbox_3octave_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="@string/tag_3E" />
+                android:text="3옥 도" />
 
-            <Button
-                android:id="@+id/button_3octave_3"
+            <CheckBox
+                android:id="@+id/checkbox_3octave_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="@string/tag_3G" />
+                android:text="3옥 레" />
+
+            <CheckBox
+                android:id="@+id/checkbox_3octave_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3옥 미" />
+            <CheckBox
+                android:id="@+id/checkbox_3octave_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3옥 파" />
+            <CheckBox
+                android:id="@+id/checkbox_3octave_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3옥 솔" />
+            <CheckBox
+                android:id="@+id/checkbox_3octave_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3옥 라" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
