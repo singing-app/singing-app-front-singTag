@@ -1,5 +1,6 @@
 package com.example.tag;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<FriendItem> mFriendList = null;
+    private ArrayList<FriendItem> mFriendList = new ArrayList<FriendItem>();
 
     @NonNull
     @Override
@@ -28,8 +29,27 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     public void setFriendList(ArrayList<FriendItem> list){
-        this.mFriendList = list;
+        mFriendList.clear();
+
+        int listSize = list.size();
+        for (int i = 0; i < listSize; i++) {
+            FriendItem temp = list.get(i);
+            this.mFriendList.add(new FriendItem(temp.getResourceId(), temp.getText_singer_insert(),
+                    temp.getText_title_insert(), temp.getText_pitch_insert(), temp.getOctave()));
+        }
         notifyDataSetChanged();
+    }
+
+    public void addFriendList(ArrayList<FriendItem> list){
+        if (mFriendList == null || mFriendList.isEmpty()){
+            setFriendList(list);
+        }
+        else {
+            mFriendList.addAll(list);
+            notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
@@ -60,11 +80,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         }
 
         void onBind(FriendItem item){
+            String octaveAndPitch = item.getOctave() + item.getText_pitch_insert();
+            Log.d("TAG - octave pitch: ", octaveAndPitch);
+
             imageView.setImageResource(item.getResourceId());
             txt_num.setText(item.getTxt_num());
             text_title_insert.setText(item.getText_title_insert());
             text_singer_insert.setText(item.getText_singer_insert());
-            text_pitch_insert.setText(item.getText_pitch_insert());
+            text_pitch_insert.setText(octaveAndPitch);
         }
     }
 }

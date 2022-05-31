@@ -86,6 +86,7 @@
                     android:id="@+id/text_pitch_insert"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:text="@string/music_pitch_insert" />
             </LinearLayout>
 

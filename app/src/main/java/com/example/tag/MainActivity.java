@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter mRecyclerAdapter;
-
+    ArrayList<FriendItem> mfriendItems;
+    public FriendItem tempFriendItem;
     public ArrayList<CheckBox> checkBoxArrayList;
 
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tempFriendItem = new FriendItem();
+        mfriendItems = new ArrayList<>();
 
         checkBoxArrayList = new ArrayList<>();
         checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_1));
@@ -75,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
                 ArrayList<String> tempArrList;
-                ArrayList<FriendItem> mfriendItems = new ArrayList<>();
+                tempFriendItem.init();
+                mfriendItems.clear();
+                mRecyclerAdapter.setFriendList(mfriendItems);
 
                 for(int i = 0; i < checkBoxArrListSize; i++){
                     if(checkBoxArrayList.get(i).isChecked()){
@@ -84,20 +91,41 @@ public class MainActivity extends AppCompatActivity {
                             tempArrList = new ArrayList<>(Arrays.asList("파", "솔", "라", "시"));
                             targetOctave = 2;
                             targetPitch = tempArrList.get(i);
-                            mfriendItems = addTagList(mfriendItems, targetOctave, targetPitch);
-                            Log.d(TAG, "TAG by onClick()"+ mfriendItems);
                         }
                         else if(i >= 4 && i <= 9){
                             int idx = i - 4;
                             tempArrList = new ArrayList<>(Arrays.asList("도", "레", "미", "파", "솔", "라"));
                             targetOctave = 3;
                             targetPitch = tempArrList.get(idx);
-                            mfriendItems = addTagList(mfriendItems, targetOctave, targetPitch);
-                            Log.d(TAG, "TAG by onClick()"+ mfriendItems);
                         }
+
+                        final String tOctave = targetOctave + "옥";
+                        db.collection(tOctave).document(targetPitch).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Map<String, Object> tempDBMap;
+
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    tempDBMap = document.getData();
+
+                                    mfriendItems.clear();
+                                    /* adapt data */
+                                    for (Map.Entry<String, Object> elem : tempDBMap.entrySet()) {
+                                        mfriendItems.add(new FriendItem(R.drawable.pancake, String.valueOf(elem.getValue()), elem.getKey(), document.getId(), tOctave));
+                                        // Log.d(TAG, "Tag - octave text: " + document.getId());
+                                    }
+                                    mRecyclerAdapter.addFriendList(mfriendItems);
+
+
+                                } else {
+                                    Log.d(TAG, "Error getting documents", task.getException());
+                                }
+                            }
+                        });
                     }
+                    // else
                 }
-                updateTagList(mfriendItems);
             }
         };
 
@@ -105,52 +133,4 @@ public class MainActivity extends AppCompatActivity {
             tempChkBox.setOnClickListener(myClickListener);
         }
     }
-
-    public ArrayList<FriendItem> addTagList(ArrayList<FriendItem> arr, int _tOctave, String tPitch){
-
-        if(_tOctave == -1 || tPitch == null){ return null; }
-
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String tOctave = _tOctave + "옥";
-
-        db.collection(tOctave).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Map<String, Object> tempDBMap;
-
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Log.d(TAG, document.getId() + "=>" + document.getData());
-
-                        if(Objects.equals(document.getId(), tPitch)){
-                            int x = 10;
-                            tempDBMap = document.getData();
-                            // Log.d(TAG,tempDBMap + "");
-                            /* adapt data */
-                            for (Map.Entry<String, Object> elem : tempDBMap.entrySet()) {
-                                arr.add(new FriendItem(R.drawable.pancake, elem.getKey(), String.valueOf(elem.getValue()), document.getId()));
-                            }
-
-                            break;
-                        }  // error point
-                        // Log.d(TAG, "TAG by ADD(): "+ arr.get(arr.size()-1).getText_title_insert() + arr.get(arr.size()-1).getText_singer_insert());
-                    }
-                } else {
-                    Log.w(TAG, "Error getting documents", task.getException());
-                }
-            }
-        });
-        // Log.d(TAG, "TAG by ADD(): "+ arr.get(arr.size()-1).getText_title_insert() + arr.get(arr.size()-1).getText_singer_insert());
-        Log.d(TAG, "" + arr);
-        return arr;
-    }
-
-    public void updateTagList(ArrayList<FriendItem> arr){
-        if(arr == null){ return; }
-        else {
-            mRecyclerAdapter.setFriendList(arr);
-            Log.d(TAG,"TAG by update(): "+arr);
-        }
-    }
-
 }
