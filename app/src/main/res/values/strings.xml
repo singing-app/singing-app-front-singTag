@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">tag</string>
-    <string name="tag_2A">#2옥라~1옥시</string>
-    <string name="tag_2F">#2옥파~2옥솔</string>
-    <string name="tag_3C">#3옥도~3옥레</string>
-    <string name="tag_3E">#3옥미~3옥파</string>
-    <string name="tag_3G">#3옥솔~3옥라</string>
+    <string name="tag_2F">#2옥 파</string>
+    <string name="tag_2G">#2옥 솔</string>
+    <string name="tag_2A">#2옥 라</string>
+    <string name="tag_2B">#2옥 시</string>
+    <string name="tag_3C">#3옥 도</string>
+    <string name="tag_3D">#3옥 레</string>
+    <string name="tag_3E">#3옥 미</string>
+    <string name="tag_3F">#3옥 파</string>
+    <string name="tag_3G">#3옥 솔</string>
+    <string name="tag_3A">#3옥 라</string>
     <string name="num">숫자</string>
     <string name="music_title">제목: </string>
     <string name="music_singer">가수: </string>
