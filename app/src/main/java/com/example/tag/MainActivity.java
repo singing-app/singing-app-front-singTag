@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private MyRecyclerAdapter mRecyclerAdapter;
     private ArrayList<FriendItem> mfriendItems;
 
+
+    ScaleAnimation scaleAnimation;
+    BounceInterpolator bounceInterpolator;//애니메이션이 일어나는 동안의 회수, 속도를 조절하거나 시작과 종료시의 효과를 추가 할 수 있다
+    CompoundButton button_favorite;
 
 
     @Override
@@ -49,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        /* 스케일 애니메이션 추가 */
+        /* scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+
+        scaleAnimation.setDuration(500);
+        bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+
+        button_favorite = findViewById(R.id.button_favorite);
+
+        button_favorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                compoundButton.startAnimation(scaleAnimation);
+            }
+        });*/
 
 
 
