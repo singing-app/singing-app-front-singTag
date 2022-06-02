@@ -34,7 +34,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         int listSize = list.size();
         for (int i = 0; i < listSize; i++) {
             FriendItem temp = list.get(i);
-            this.mFriendList.add(new FriendItem(temp.getResourceId(), temp.getText_singer_insert(),
+            if (Integer.valueOf(temp.getTxt_num()) < 10 ){
+                temp.setTxt_num("0"+temp.getTxt_num());
+            }
+            this.mFriendList.add(new FriendItem(temp.getTxt_num(), temp.getResourceId(), temp.getText_singer_insert(),
                     temp.getText_title_insert(), temp.getText_pitch_insert(), temp.getOctave()));
         }
         notifyDataSetChanged();
@@ -81,7 +84,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         void onBind(FriendItem item){
             String octaveAndPitch = item.getOctave() + item.getText_pitch_insert();
-            Log.d("TAG - octave pitch: ", octaveAndPitch);
 
             imageView.setImageResource(item.getResourceId());
             txt_num.setText(item.getTxt_num());

@@ -27,87 +27,81 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="2dp">
+            android:padding="4dp">
 
-            <CheckBox
-                android:id="@+id/checkbox_2octave_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2옥 파"/>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipgroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <CheckBox
-                android:id="@+id/checkbox_2octave_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2옥 솔" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_2F"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_2octave_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2옥 라" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_2G"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_2octave_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2옥 시" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_2A"/>
 
-        </LinearLayout>
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_2B"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal">
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3C"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_3octave_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 도" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3D"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_3octave_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 레" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3E"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_3octave_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 미" />
-            <CheckBox
-                android:id="@+id/checkbox_3octave_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 파" />
-            <CheckBox
-                android:id="@+id/checkbox_3octave_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 솔" />
-            <CheckBox
-                android:id="@+id/checkbox_3octave_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3옥 라" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3F"/>
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3G"/>
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="@string/tag_3A"/>
+
+            </com.google.android.material.chip.ChipGroup>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>

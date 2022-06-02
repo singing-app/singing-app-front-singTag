@@ -10,13 +10,15 @@ public class FriendItem {
     int resourceId;
 
     public FriendItem(){
+        this.txt_num = null;
         this.text_title_insert= null;
         this.text_singer_insert = null;
         this.text_pitch_insert = null;
         this.octave = null;
         this.resourceId = 0;
     }
-    public FriendItem(int resourceId, String text_title_insert, String text_singer_insert, String text_pitch_insert, String octave) {
+    public FriendItem(String txt_num, int resourceId, String text_title_insert, String text_singer_insert, String text_pitch_insert, String octave) {
+        this.txt_num = txt_num;
         this.text_title_insert= text_title_insert;
         this.text_singer_insert = text_singer_insert;
         this.text_pitch_insert = text_pitch_insert;
@@ -25,6 +27,7 @@ public class FriendItem {
     }
 
     public void init(){
+        this.txt_num = null;
         this.text_title_insert= null;
         this.text_singer_insert = null;
         this.text_pitch_insert = null;
@@ -67,4 +70,6 @@ public class FriendItem {
     }
 
     public void setOctave(String octave){this.octave = octave;}
+
+    public void setTxt_num(String s) { this.txt_num = s;}
 }

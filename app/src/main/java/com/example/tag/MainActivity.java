@@ -14,6 +14,8 @@ import android.widget.CheckBox;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -38,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private MyRecyclerAdapter mRecyclerAdapter;
     ArrayList<FriendItem> mfriendItems;
     public FriendItem tempFriendItem;
-    public ArrayList<CheckBox> checkBoxArrayList;
+    public ChipGroup chipGroup;
+    int cnt = 1;
 
 
     @Override
@@ -48,18 +52,9 @@ public class MainActivity extends AppCompatActivity {
         tempFriendItem = new FriendItem();
         mfriendItems = new ArrayList<>();
 
-        checkBoxArrayList = new ArrayList<>();
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_1));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_2));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_3));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_2octave_4));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_1));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_2));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_3));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_4));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_5));
-        checkBoxArrayList.add((CheckBox) findViewById(R.id.checkbox_3octave_6));
-        final int checkBoxArrListSize = checkBoxArrayList.size();
+        chipGroup = (ChipGroup) findViewById(R.id.chipgroup);
+
+        final int chipGroupSize = chipGroup.getChildCount();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -73,20 +68,31 @@ public class MainActivity extends AppCompatActivity {
 
         // mfriendItems = new ArrayList<>();
 
-        View.OnClickListener myClickListener = new View.OnClickListener() {
+        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+
+            }
+        });
+
+        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             private int targetOctave = -1;
             private String targetPitch = null;
 
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 ArrayList<String> tempArrList;
                 tempFriendItem.init();
                 mfriendItems.clear();
                 mRecyclerAdapter.setFriendList(mfriendItems);
 
-                for(int i = 0; i < checkBoxArrListSize; i++){
-                    if(checkBoxArrayList.get(i).isChecked()){
+                cnt = 1;
+
+                for(int i = 0; i < chipGroupSize; i++){
+                    Chip chip = (Chip)chipGroup.getChildAt(i);
+
+                    if(chip.isChecked()){
                         if(i >= 0 && i <= 3){
                             tempArrList = new ArrayList<>(Arrays.asList("파", "솔", "라", "시"));
                             targetOctave = 2;
@@ -112,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                                     mfriendItems.clear();
                                     /* adapt data */
                                     for (Map.Entry<String, Object> elem : tempDBMap.entrySet()) {
-                                        mfriendItems.add(new FriendItem(R.drawable.pancake, String.valueOf(elem.getValue()), elem.getKey(), document.getId(), tOctave));
+                                        mfriendItems.add(new FriendItem(String.valueOf(cnt), R.drawable.pancake, String.valueOf(elem.getValue()), elem.getKey(), document.getId(), tOctave));
+                                        cnt++;
                                         // Log.d(TAG, "Tag - octave text: " + document.getId());
                                     }
                                     mRecyclerAdapter.addFriendList(mfriendItems);
@@ -127,10 +134,6 @@ public class MainActivity extends AppCompatActivity {
                     // else
                 }
             }
-        };
-
-        for(CheckBox tempChkBox : checkBoxArrayList){
-            tempChkBox.setOnClickListener(myClickListener);
-        }
+        });
     }
 }
