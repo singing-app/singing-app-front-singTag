@@ -11,5 +11,6 @@
     <string name="music_pitch">최고음: </string>
     <string name="music_title_insert">제목 입력</string>
     <string name="music_singer_insert">가수 입력</string>
+    <string name="music_octave_insert">옥타브 입력</string>
     <string name="music_pitch_insert">최고음 입력</string>
 </resources>
